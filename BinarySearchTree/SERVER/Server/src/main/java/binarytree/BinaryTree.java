@@ -50,6 +50,55 @@ public class BinaryTree<T extends Comparable<T>> {
         }
     }
 
+    public void delete(T value){
+        if(this.root == null){
+            System.out.println("Brak elementów w drzewie");
+            return;
+        }
+        delete( value, root);
+    }
+    private void delete(T value, Node<T> node){
+        Node<T> nodeToBeLinked = null;
+        Node<T> nodeToLink = null;
+        Node<T> parent = null;
+        if(node == null){
+            System.out.println("Brak elementu " + value);
+            return;
+        } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
+            delete(value, node.left);
+        } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
+            delete(value, node.right);
+        } else if (value.compareTo(node.value) == 0) {//znaleziona wartosc ktora chcemy usunac
+                nodeToBeLinked = node.left;
+                parent = getparent(value, root);
+                node = node.right;
+                if(nodeToBeLinked != null){
+                    nodeToLink = searchmin(node);
+                    if(nodeToLink == null)
+                        node = nodeToBeLinked;
+                    else
+                        nodeToLink.left = nodeToBeLinked;
+                }
+                if(parent == null){
+                    this.root.left = node.left;
+                    this.root.right = node.right;
+                    this.root.value = node.value;
+                }
+                else if (parent.left.value.compareTo(value)==0)
+                    parent.left = node;
+                else if (parent.right.value.compareTo(value)==0)
+                    parent.right = node;
+        }
+    }
+    
+    private Node<T> searchmin (Node<T> node){
+        if(node == null)
+            return null;
+        Node<T> current = node;
+        while(current.left != null)
+            current = current.left;
+        return current;
+    }
 
     public void draw(){
         this.draw(0, this.root);
@@ -62,12 +111,27 @@ public class BinaryTree<T extends Comparable<T>> {
 
         for(int i = 0; i < height ; i++)
             System.out.print("  ");
-        System.out.println(node.value);
+        System.out.println(">" + node.value);
 
         this.draw(height+1,node.left);
     }
+
+    private Node<T> getparent(T value, Node<T> node){
+        if(root.value.compareTo(value) == 0){
+            return null;
+        } else if (value.compareTo(node.right.value) == 0) {
+            return node;
+        } else if (value.compareTo(node.left.value) == 0) {
+            return node;
+        } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
+            return getparent(value, node.left);
+        } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
+            return getparent(value, node.right);
+        }
+        return node;
+    }
 }
-    
+
 class Node <T extends Comparable<T>> {
     protected T value;
     protected Node<T> left = null;
