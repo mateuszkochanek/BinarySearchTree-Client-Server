@@ -15,7 +15,7 @@ public class ServerMain
         binaryTree.insert(9);
         binaryTree.insert(6);
         binaryTree.insert(15);
-
+        binaryTree.search(7);
         binaryTree.draw();
 
     }
