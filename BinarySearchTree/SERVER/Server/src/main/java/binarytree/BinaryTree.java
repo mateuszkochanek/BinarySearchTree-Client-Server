@@ -1,8 +1,11 @@
 package binarytree;
 
-public class BinaryTree<T extends Comparable<T>> {
-    public Node<T> root = null;
+import java.util.ArrayList;
 
+public class BinaryTree<T extends Comparable<T>> {
+    private Node<T> root = null;
+    private ArrayList <String> treeList = new ArrayList<String>();
+    private String s;
 
     public void insert(T value) {
         if(this.root == null){
@@ -100,19 +103,16 @@ public class BinaryTree<T extends Comparable<T>> {
         return current;
     }
 
-    public void draw(){
-        this.draw(0, this.root);
-    }
     private void draw(int height,Node<T> node) {
         if(node == null)
             return;
 
         this.draw(height+1,node.right);
-
+        s = "";
         for(int i = 0; i < height ; i++)
-            System.out.print("  ");
-        System.out.println(">" + node.value);
-
+            s += "  ";
+        s += ">" + node.value;
+        treeList.add(s);
         this.draw(height+1,node.left);
     }
 
@@ -129,6 +129,17 @@ public class BinaryTree<T extends Comparable<T>> {
             return getparent(value, node.right);
         }
         return node;
+    }
+
+    public String getTree() {
+        this.draw(0, this.root);
+        s = "";
+        for(String string : treeList){
+            s = s + string + "\n";
+        }
+        if(s.compareTo("") == 0)
+            s = "drzewo jest puste";
+        return s;
     }
 }
 

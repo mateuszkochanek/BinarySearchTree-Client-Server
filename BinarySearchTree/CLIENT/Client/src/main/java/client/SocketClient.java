@@ -14,6 +14,7 @@ public class SocketClient {
 	PrintWriter out = null;
 	BufferedReader in = null;
 	int option;
+	String value;
 	Scanner input = new Scanner(System.in);
 
 	public SocketClient(int type) {
@@ -38,11 +39,15 @@ public class SocketClient {
 		do{
 			try {
                 option = input.nextInt();
-                if (option == 1 || option == 2 || option == 3 || option == 4){
+                if (option == 1 || option == 2) {
 					out.println(option);
+					value = input.nextLine();
+					out.println(value);
+				} else if(option == 3 || option == 4) {
+					out.println(option);
+				} else {
+					System.out.println("Proszę wpisać 1,2,3 lub 4");
 				}
-                else
-                    System.out.println("Proszę wpisać 1,2,3 lub 4");
             } catch (InputMismatchException e) {
                 System.out.println("zły typ danych, proszę wpisać 1,2,3 lub 4");
                 input.next();

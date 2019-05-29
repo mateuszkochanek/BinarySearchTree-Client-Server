@@ -20,8 +20,8 @@ public class ClientMain {
                     System.out.println("Proszę wpisać 1,2 lub 3");
             } catch (InputMismatchException e) {
                 System.out.println("zły typ danych, proszę wpisać 1,2 lub 3");
+                input.next();
             }
-            input.nextLine();
         }
         new SocketClient(type);
     }
