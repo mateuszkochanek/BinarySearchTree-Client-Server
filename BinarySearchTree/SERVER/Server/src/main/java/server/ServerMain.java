@@ -26,7 +26,7 @@ public class ServerMain
         System.out.println(" ");
         System.out.println(" ");
         System.out.println(" ");
-        binaryTree.delete(85);
+        binaryTree.delete(75);
         binaryTree.draw();
 
     }
