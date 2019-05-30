@@ -6,6 +6,9 @@ public class BinaryTree<T extends Comparable<T>> {
     private Node<T> root = null;
     private ArrayList <String> treeList = new ArrayList<String>();
     private String s;
+    private Node<T> nodeToBeLinked = null;
+    private Node<T> nodeToLink = null;
+    private Node<T> parent = null;
 
     public String insert(T value) {
         if(this.root == null){
@@ -38,44 +41,38 @@ public class BinaryTree<T extends Comparable<T>> {
     } 
 
 
-    public void search(T value){
+    public String search(T value){
         if(this.root == null){
-            System.out.println("Brak elementów w drzewie");
-            return;
+            return"Brak elementów w drzewie";
         }
-        search( value, root);
+        return search( value, root);
     }
-    public void search(T value, Node<T> node){
+    public String search(T value, Node<T> node){
         if(node == null){
-            System.out.println("Brak elementu " + value);
-            return;
+            return "Brak elementu " + value;
         } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
-            search(value, node.left);
+            return search(value, node.left);
         } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
-            search(value, node.right);
+            return search(value, node.right);
         } else if (value.compareTo(node.value) == 0) {
-            System.out.println("Wartość " + value + " istnieje w drzewie");
+            return "Wartość " + value + " istnieje w drzewie";
         }
+        return "Błąd";
     }
 
-    public void delete(T value){
+    public String delete(T value){
         if(this.root == null){
-            System.out.println("Brak elementów w drzewie");
-            return;
+            return "Brak elementów w drzewie, nie można nic usunąć";
         }
-        delete( value, root);
+        return delete( value, root);
     }
-    private void delete(T value, Node<T> node){
-        Node<T> nodeToBeLinked = null;
-        Node<T> nodeToLink = null;
-        Node<T> parent = null;
+    private String delete(T value, Node<T> node){
         if(node == null){
-            System.out.println("Brak elementu " + value);
-            return;
+            return "Brak elementu " + value;
         } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
-            delete(value, node.left);
+            return delete(value, node.left);
         } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
-            delete(value, node.right);
+            return delete(value, node.right);
         } else if (value.compareTo(node.value) == 0) {//znaleziona wartosc ktora chcemy usunac
                 nodeToBeLinked = node.left;
                 parent = getparent(value, root);
@@ -87,16 +84,26 @@ public class BinaryTree<T extends Comparable<T>> {
                     else
                         nodeToLink.left = nodeToBeLinked;
                 }
-                if(parent == null){
+                System.out.print("parent:" + parent.value + "\n");
+                if(parent != null){
+                    if(parent.left != null){
+                        System.out.print("parent:" + parent.value + "\n");
+                        if (parent.left.value.compareTo(value)==0)
+                            parent.left = node;
+                    }
+                    if(parent.right != null){
+                        System.out.print("parent:" + parent.value + "\n");
+                            if (parent.right.value.compareTo(value)==0)
+                                parent.right = node;
+                    }
+                } else {
                     this.root.left = node.left;
                     this.root.right = node.right;
                     this.root.value = node.value;
                 }
-                else if (parent.left.value.compareTo(value)==0)
-                    parent.left = node;
-                else if (parent.right.value.compareTo(value)==0)
-                    parent.right = node;
+                return getTree();
         }
+        return getTree();
     }
     
     private Node<T> searchmin (Node<T> node){
@@ -122,12 +129,18 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     private Node<T> getparent(T value, Node<T> node){
+        /*System.out.println("node.value:" + node.value);
+        System.out.println("value:" + value);
+        System.out.println("node.right.value:" + node.right.value);
+        System.out.println("node.left.value:" + node.left.value + "\n");*/
         if(root.value.compareTo(value) == 0){
             return null;
-        } else if (value.compareTo(node.right.value) == 0) {
-            return node;
-        } else if (value.compareTo(node.left.value) == 0) {
-            return node;
+        } else if(node.right != null) {
+            if (value.compareTo(node.right.value) == 0) 
+                return node;
+        } else if(node.left != null) {
+            if (value.compareTo(node.left.value) == 0) 
+                return node;
         } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
             return getparent(value, node.left);
         } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value

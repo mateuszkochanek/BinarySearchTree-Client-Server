@@ -93,40 +93,41 @@ public class ServerMain {
                     value = in.readLine();
                     if (type.compareTo("1") == 0){//Integer
                         try {
-                            tree.delete(Integer.parseInt(value));
+                            lineToPrint = tree.delete(Integer.parseInt(value));
                         } catch (NumberFormatException e) {
                             System.out.println("Wrong type during integer conversion in delete");
                         }
                     } else if (type.compareTo("2") == 0){//Double
                         try {
-                            tree.delete(Double.parseDouble(value));
+                            lineToPrint =tree.delete(Double.parseDouble(value));
                         } catch (NumberFormatException e) {
                             System.out.println("Wrong type during double conversion in delete");
                         }
                     } else if (type.compareTo("3") == 0){//String
-                        tree.delete(value);
+                        lineToPrint = tree.delete(value);
                     }
-                    treeDraw = tree.getTree();
-                    System.out.println(treeDraw);
+                    out.println(lineToPrint);
                 } else if (option.compareTo("3") == 0) {//Draw option
                     System.out.println(tree.getTree());
                     out.println(tree.getTree());
                 } else if (option.compareTo("4") == 0) {//Search option
+                    value = in.readLine();
                     if (type.compareTo("1") == 0){//Integer
                         try {
-                            tree.search(Integer.parseInt(value));
+                            lineToPrint = tree.search(Integer.parseInt(value));
                         } catch (NumberFormatException e) {
                             System.out.println("Wrong type during integer conversion in delete");
                         }
                     } else if (type.compareTo("2") == 0){//Double
                         try {
-                            tree.search(Double.parseDouble(value));
+                            lineToPrint = tree.search(Double.parseDouble(value));
                         } catch (NumberFormatException e) {
                             System.out.println("Wrong type during double conversion in delete");
                         }
                     } else if (type.compareTo("3") == 0){//String
-                        tree.search(value);
+                        lineToPrint = tree.search(value);
                     }
+                    out.println(lineToPrint);
                 } else if (option.compareTo("5") == 0) {
                     System.out.print("wybrano wyjscie");
                 }
