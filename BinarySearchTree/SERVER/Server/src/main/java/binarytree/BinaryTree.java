@@ -7,29 +7,34 @@ public class BinaryTree<T extends Comparable<T>> {
     private ArrayList <String> treeList = new ArrayList<String>();
     private String s;
 
-    public void insert(T value) {
+    public String insert(T value) {
         if(this.root == null){
             this.root = new Node<T>(value);
-        } else {
-            insert(value, root);
+            return getTree();
         }
+        return insert(value, root);
+
     }
-    private void insert(T value, Node<T> node) {
+    private String insert(T value, Node<T> node) {
+        
         if(value.compareTo(node.value) < 0){//value jest mniejsze od node.value
             if(node.left == null){
                 node.left = new Node<T>(value);
+                return getTree();
             } else {
-                insert(value, node.left);
+                return insert(value, node.left);
             }
         } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
             if(node.right == null){
                 node.right = new Node<T>(value);
+                return getTree();
             } else {
-                insert(value, node.right);
+                return insert(value, node.right);
             }
-        } else if (value.compareTo(node.value) == 0) {
-            System.out.println("taka wartość juz istnieje w drzewie");
+        } else if (value.compareTo(node.value) == 0) {//value jest równe node.value
+            return getTree() + "\ntaka wartość juz istnieje w drzewie";
         }
+        return getTree();
     } 
 
 
@@ -132,6 +137,7 @@ public class BinaryTree<T extends Comparable<T>> {
     }
 
     public String getTree() {
+        treeList = new ArrayList<String>();
         this.draw(0, this.root);
         s = "";
         for(String string : treeList){
