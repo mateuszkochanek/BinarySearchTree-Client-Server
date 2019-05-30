@@ -8,6 +8,7 @@ public class BinaryTree<T extends Comparable<T>> {
     private String s;
     private Node<T> nodeToBeLinked = null;
     private Node<T> nodeToLink = null;
+    private Node<T> parentNodeToLink = null;
     private Node<T> parent = null;
 
     public String insert(T value) {
@@ -75,16 +76,53 @@ public class BinaryTree<T extends Comparable<T>> {
             return delete(value, node.right);
         } else if (value.compareTo(node.value) == 0) {//znaleziona wartosc ktora chcemy usunac
             parent = getparent(root, node);
-            System.out.println(parent.value + " \n");
-            /*if(parent == null){
-                root = node;
-            }
-            
-            if(node.left == null && node.right == null){
-                parent = getparent(value, node);
+            if(parent == null){
+                nodeToLink = searchmin(node.right);
+                parentNodeToLink = getparent(root,nodeToLink);
+                if(parentNodeToLink == null)
+                    parentNodeToLink = root;
+                if(parentNodeToLink.left == nodeToLink){
+                    parentNodeToLink.left = null;
+                } else if(parentNodeToLink.right == nodeToLink){
+                    parentNodeToLink.right = null;
+                }
+                root.value = nodeToLink.value;
+            } else if(node.left == null && node.right == null) {
+                if(parent.left == node)
+                    parent.left = null;
+                else if(parent.right == node)
+                    parent.right = null;
 
-            }*/
-       
+            } else if(node.left == null && node.right != null) {
+                if(parent.left == node)
+                    parent.left = node.right;
+                else if(parent.right == node)
+                    parent.right = node.right;
+            } else if(node.left != null && node.right == null) {
+                if(parent.left == node)
+                    parent.left = node.left;
+                else if(parent.right == node)
+                    parent.right = node.left;
+            } else {
+                nodeToLink = searchmin(node.right);
+                parentNodeToLink = getparent(root,nodeToLink);
+
+                if(parentNodeToLink == null)
+                    parentNodeToLink = root;
+
+                if(parentNodeToLink.left == nodeToLink){
+                    parentNodeToLink.left = null;
+                } else if(parentNodeToLink.right == nodeToLink){
+                    parentNodeToLink.right = null;
+                }
+
+                if(parent.left == node){
+                    parent.left.value = nodeToLink.value;
+                } else if(parent.right == node){
+                    parent.right.value = nodeToLink.value;
+                }
+            }
+            return getTree();
         }
         return getTree();
     }
