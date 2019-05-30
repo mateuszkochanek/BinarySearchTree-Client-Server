@@ -74,34 +74,17 @@ public class BinaryTree<T extends Comparable<T>> {
         } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
             return delete(value, node.right);
         } else if (value.compareTo(node.value) == 0) {//znaleziona wartosc ktora chcemy usunac
-                nodeToBeLinked = node.left;
-                parent = getparent(value, root);
-                node = node.right;
-                if(nodeToBeLinked != null){
-                    nodeToLink = searchmin(node);
-                    if(nodeToLink == null)
-                        node = nodeToBeLinked;
-                    else
-                        nodeToLink.left = nodeToBeLinked;
-                }
-                System.out.print("parent:" + parent.value + "\n");
-                if(parent != null){
-                    if(parent.left != null){
-                        System.out.print("parent:" + parent.value + "\n");
-                        if (parent.left.value.compareTo(value)==0)
-                            parent.left = node;
-                    }
-                    if(parent.right != null){
-                        System.out.print("parent:" + parent.value + "\n");
-                            if (parent.right.value.compareTo(value)==0)
-                                parent.right = node;
-                    }
-                } else {
-                    this.root.left = node.left;
-                    this.root.right = node.right;
-                    this.root.value = node.value;
-                }
-                return getTree();
+            parent = getparent(root, node);
+            System.out.println(parent.value + " \n");
+            /*if(parent == null){
+                root = node;
+            }
+            
+            if(node.left == null && node.right == null){
+                parent = getparent(value, node);
+
+            }*/
+       
         }
         return getTree();
     }
@@ -128,25 +111,21 @@ public class BinaryTree<T extends Comparable<T>> {
         this.draw(height+1,node.left);
     }
 
-    private Node<T> getparent(T value, Node<T> node){
-        /*System.out.println("node.value:" + node.value);
-        System.out.println("value:" + value);
-        System.out.println("node.right.value:" + node.right.value);
-        System.out.println("node.left.value:" + node.left.value + "\n");*/
-        if(root.value.compareTo(value) == 0){
+    private Node<T> getparent(Node<T> currentRoot, Node<T> node){
+        if(node == root || root == null){
             return null;
-        } else if(node.right != null) {
-            if (value.compareTo(node.right.value) == 0) 
-                return node;
-        } else if(node.left != null) {
-            if (value.compareTo(node.left.value) == 0) 
-                return node;
-        } else if (value.compareTo(node.value) < 0){//value jest mniejsze od node.value
-            return getparent(value, node.left);
-        } else if (value.compareTo(node.value) > 0) {//value jest większe od node.value
-            return getparent(value, node.right);
-        }
-        return node;
+        } else {
+                if(currentRoot.left==node || currentRoot.right==node)
+                    return currentRoot;
+                else {
+                    if (currentRoot.value.compareTo(node.value) < 0) {
+                        return getparent(currentRoot.right,node);
+                    }
+                    else {
+                        return getparent(currentRoot.left,node);
+                    }
+                }
+            }
     }
 
     public String getTree() {
